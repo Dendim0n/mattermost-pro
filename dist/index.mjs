@@ -1,8 +1,8 @@
-import { t as mattermostProPlugin } from "./channel-plugin-runtime-B2O1Lte5.mjs";
-import "./channel-plugin-api-BJY748jV.mjs";
+import { t as mattermostProPlugin } from "./channel-plugin-runtime-DY5Z0EP0.mjs";
+import "./channel-plugin-api-C6-Vit83.mjs";
 import { n as setMattermostProRuntime } from "./runtime-CtaUqSvR.mjs";
 import "./runtime-api.mjs";
-import { i as registerSlashCommandRoute } from "./slash-state-BRtyJ5Mi.mjs";
+import { i as registerSlashCommandRoute } from "./slash-state-C_Qa4GLl.mjs";
 import "./slash-route-api.mjs";
 import { defineChannelPluginEntry } from "openclaw/plugin-sdk/channel-core";
 //#region index.ts

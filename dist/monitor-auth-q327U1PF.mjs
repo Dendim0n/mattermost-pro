@@ -1,6 +1,6 @@
 import { createChannelMessageReplyPipeline } from "openclaw/plugin-sdk/channel-message";
 import { createChannelPairingController } from "openclaw/plugin-sdk/channel-pairing";
-import { normalizeLowercaseStringOrEmpty, uniqueStrings } from "openclaw/plugin-sdk/string-coerce-runtime";
+import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/string-coerce-runtime";
 import { isTrustedProxyAddress, parseStrictPositiveInteger, resolveClientIp } from "openclaw/plugin-sdk/core";
 import { resolveAllowlistMatchSimple } from "openclaw/plugin-sdk/allow-from";
 import { buildAgentMediaPayload } from "openclaw/plugin-sdk/agent-media-payload";
@@ -41,7 +41,10 @@ function normalizeMattermostAllowEntry(entry) {
 	return normalized ? normalizeLowercaseStringOrEmpty(normalized) : "";
 }
 function normalizeMattermostAllowList(entries) {
-	return uniqueStrings(entries.map((entry) => normalizeMattermostAllowEntry(String(entry))).filter(Boolean));
+	return uniqueMattermostStrings(entries.map((entry) => normalizeMattermostAllowEntry(String(entry))).filter(Boolean));
+}
+function uniqueMattermostStrings(values) {
+	return [...new Set(values)];
 }
 function isMattermostSenderAllowed(params) {
 	const allowFrom = normalizeMattermostAllowList(params.allowFrom);
@@ -174,4 +177,4 @@ async function authorizeMattermostCommandInvocation(params) {
 	};
 }
 //#endregion
-export { resolveClientIp as C, resolveChannelMediaMaxBytes as S, warnMissingProviderGroupPolicyFallbackOnce as T, logTypingFailure as _, resolveMattermostMonitorInboundAccess as a, registerPluginHttpRoute as b, buildModelsProviderData as c, createChannelPairingController as d, isRequestBodyLimitError as f, logInboundDrop as g, loadOutboundMediaFromUrl as h, normalizeMattermostAllowList as i, createChannelHistoryWindow as l, listSkillCommandsForAgents as m, isMattermostSenderAllowed as n, DEFAULT_GROUP_HISTORY_LIMIT as o, isTrustedProxyAddress as p, normalizeMattermostAllowEntry as r, buildAgentMediaPayload as s, authorizeMattermostCommandInvocation as t, createChannelMessageReplyPipeline as u, parseStrictPositiveInteger as v, resolveDefaultGroupPolicy as w, resolveAllowlistProviderRuntimeGroupPolicy as x, readRequestBodyWithLimit as y };
+export { resolveChannelMediaMaxBytes as C, warnMissingProviderGroupPolicyFallbackOnce as E, resolveAllowlistProviderRuntimeGroupPolicy as S, resolveDefaultGroupPolicy as T, logInboundDrop as _, resolveMattermostMonitorInboundAccess as a, readRequestBodyWithLimit as b, buildAgentMediaPayload as c, createChannelMessageReplyPipeline as d, createChannelPairingController as f, loadOutboundMediaFromUrl as g, listSkillCommandsForAgents as h, normalizeMattermostAllowList as i, buildModelsProviderData as l, isTrustedProxyAddress as m, isMattermostSenderAllowed as n, uniqueMattermostStrings as o, isRequestBodyLimitError as p, normalizeMattermostAllowEntry as r, DEFAULT_GROUP_HISTORY_LIMIT as s, authorizeMattermostCommandInvocation as t, createChannelHistoryWindow as u, logTypingFailure as v, resolveClientIp as w, registerPluginHttpRoute as x, parseStrictPositiveInteger as y };

@@ -8,7 +8,6 @@ import {
 } from "openclaw/plugin-sdk/channel-ingress-runtime";
 import {
   normalizeLowercaseStringOrEmpty,
-  uniqueStrings,
 } from "openclaw/plugin-sdk/string-coerce-runtime";
 import type { ResolvedMattermostAccount } from "./accounts.js";
 import type { MattermostChannel } from "./client.js";
@@ -57,7 +56,11 @@ export function normalizeMattermostAllowList(entries: Array<string | number>): s
   const normalized = entries
     .map((entry) => normalizeMattermostAllowEntry(String(entry)))
     .filter(Boolean);
-  return uniqueStrings(normalized);
+  return uniqueMattermostStrings(normalized);
+}
+
+export function uniqueMattermostStrings(values: string[]): string[] {
+  return [...new Set(values)];
 }
 
 export function isMattermostSenderAllowed(params: {

@@ -1,6 +1,6 @@
 import { _ as normalizeMattermostBaseUrl, b as updateMattermostPost, c as createMattermostDirectChannelWithRetry, d as fetchMattermostChannel, f as fetchMattermostChannelByName, g as fetchMattermostUserTeams, h as fetchMattermostUserByUsername, i as resolveMattermostAccount, l as createMattermostPost, m as fetchMattermostUser, p as fetchMattermostMe, s as createMattermostClient, x as uploadMattermostFile, y as sendMattermostTyping } from "./constants-lvhO5Lit.mjs";
 import { t as getMattermostProRuntime } from "./runtime-CtaUqSvR.mjs";
-import { C as resolveClientIp, _ as logTypingFailure, c as buildModelsProviderData, f as isRequestBodyLimitError, h as loadOutboundMediaFromUrl, i as normalizeMattermostAllowList, p as isTrustedProxyAddress, t as authorizeMattermostCommandInvocation, u as createChannelMessageReplyPipeline, y as readRequestBodyWithLimit } from "./monitor-auth-BAOA0ZPg.mjs";
+import { b as readRequestBodyWithLimit, d as createChannelMessageReplyPipeline, g as loadOutboundMediaFromUrl, i as normalizeMattermostAllowList, l as buildModelsProviderData, m as isTrustedProxyAddress, p as isRequestBodyLimitError, t as authorizeMattermostCommandInvocation, v as logTypingFailure, w as resolveClientIp } from "./monitor-auth-q327U1PF.mjs";
 import { createMessageReceiptFromOutboundResults } from "openclaw/plugin-sdk/channel-message";
 import { deliverTextOrMediaReply, isReasoningReplyPayload, resolveSendableOutboundReplyParts } from "openclaw/plugin-sdk/reply-payload";
 import { isPrivateNetworkOptInEnabled } from "openclaw/plugin-sdk/ssrf-runtime";

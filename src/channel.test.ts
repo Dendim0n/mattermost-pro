@@ -3,11 +3,13 @@ import type { ReplyPayload } from "openclaw/plugin-sdk/reply-runtime";
 import { mattermostProPlugin } from "./channel.js";
 import type { MattermostClient } from "./mattermost/client.js";
 import {
+  buildMattermostInboundReplayKeysForTest,
   deliverMattermostReplyWithDraftPreview,
   normalizeMattermostInteractionSourceIps,
   shouldUpdateMattermostDraftFromAssistantPartial,
   shouldUseMattermostBlockDraftPreview,
 } from "./mattermost/monitor.js";
+import { normalizeMattermostAllowList } from "./mattermost/monitor-auth.js";
 
 describe("mattermostProPlugin", () => {
   it("owns the independent mattermost-pro channel config surface", () => {
@@ -88,5 +90,21 @@ describe("Mattermost runtime compatibility", () => {
       "10.0.0.1",
       "192.168.1.1",
     ]);
+  });
+
+  it("deduplicates allowlist entries without newer OpenClaw uniqueStrings export", () => {
+    expect(normalizeMattermostAllowList([" @Alice ", "alice", "user:Bob", "mattermost:bob"])).toEqual([
+      "alice",
+      "bob",
+    ]);
+  });
+
+  it("deduplicates inbound replay keys without newer OpenClaw uniqueStrings export", () => {
+    expect(
+      buildMattermostInboundReplayKeysForTest({
+        accountId: "default",
+        messageIds: [" post-1 ", "post-1", ""],
+      }),
+    ).toEqual(["default:post-1"]);
   });
 });

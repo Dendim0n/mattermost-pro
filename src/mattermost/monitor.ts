@@ -19,7 +19,6 @@ import { isPrivateNetworkOptInEnabled } from "openclaw/plugin-sdk/ssrf-runtime";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-  uniqueStrings,
 } from "openclaw/plugin-sdk/string-coerce-runtime";
 import { MATTERMOST_TEXT_CHUNK_LIMIT } from "../constants.js";
 import { getMattermostProRuntime } from "../runtime.js";
@@ -57,6 +56,7 @@ import {
   authorizeMattermostCommandInvocation,
   normalizeMattermostAllowEntry,
   resolveMattermostMonitorInboundAccess,
+  uniqueMattermostStrings,
 } from "./monitor-auth.js";
 import {
   evaluateMattermostMentionGate,
@@ -208,10 +208,12 @@ function buildMattermostInboundReplayKeys(params: {
   accountId: string;
   messageIds: string[];
 }): string[] {
-  return uniqueStrings(params.messageIds.map((id) => `${params.accountId}:${id.trim()}`)).filter(
-    (key) => !key.endsWith(":"),
-  );
+  return uniqueMattermostStrings(
+    params.messageIds.map((id) => `${params.accountId}:${id.trim()}`),
+  ).filter((key) => !key.endsWith(":"));
 }
+
+export const buildMattermostInboundReplayKeysForTest = buildMattermostInboundReplayKeys;
 
 export async function processMattermostReplayGuardedPost(params: {
   accountId: string;
