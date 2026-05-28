@@ -567,7 +567,7 @@ const mattermostSetupWizard = {
 };
 //#endregion
 //#region src/channel.ts
-const loadMattermostChannelRuntime = createLazyRuntimeModule(() => import("./channel.runtime-DmSRwTou.mjs"));
+const loadMattermostChannelRuntime = createLazyRuntimeModule(() => import("./channel.runtime-CkBOy6_K.mjs"));
 function buildMattermostPresentationButtons(presentation) {
 	return presentation.blocks.filter((block) => block.type === "buttons").map((block) => block.buttons.flatMap((button) => button.value ? [{
 		text: button.label,

@@ -41,6 +41,18 @@
       "optional": true
     }
   },
+  "pnpm": {
+    "overrides": {
+      "@smithy/core": "3.24.4",
+      "@smithy/credential-provider-imds": "4.3.4",
+      "@smithy/fetch-http-handler": "5.4.4",
+      "@smithy/node-http-handler": "4.7.4",
+      "@smithy/signature-v4": "5.4.4",
+      "@smithy/util-stream": "4.6.4",
+      "eventsource-parser": "3.0.8",
+      "rolldown": "1.0.2"
+    }
+  },
   "openclaw": {
     "extensions": [
       "./index.ts"

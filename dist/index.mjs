@@ -1,5 +1,5 @@
-import { t as mattermostProPlugin } from "./channel-plugin-runtime-QZNX84o1.mjs";
-import "./channel-plugin-api-DhoCmzR6.mjs";
+import { t as mattermostProPlugin } from "./channel-plugin-runtime-B4zBWDR8.mjs";
+import "./channel-plugin-api-J7fnJ5XG.mjs";
 import { n as setMattermostProRuntime } from "./runtime-CtaUqSvR.mjs";
 import "./runtime-api.mjs";
 import { i as registerSlashCommandRoute } from "./slash-state-BRtyJ5Mi.mjs";

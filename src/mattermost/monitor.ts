@@ -148,6 +148,12 @@ export function shouldSuppressMattermostDefaultToolProgressMessages(
   return account.streamingMode !== "off";
 }
 
+export function shouldUpdateMattermostDraftFromAssistantPartial(
+  streamingMode: ResolvedMattermostAccount["streamingMode"],
+): boolean {
+  return streamingMode === "partial";
+}
+
 type MediaKind = "image" | "audio" | "video" | "document" | "unknown";
 
 type MattermostReaction = {
@@ -1759,29 +1765,6 @@ export async function monitorMattermostProvider(opts: MonitorMattermostOpts = {}
           lastBlockDraftEntry = cleaned;
           draftStream.update(blockDraftText);
         };
-        const updateBlockDraftFromPartial = (text?: string) => {
-          const cleaned = text?.trim();
-          if (!cleaned) {
-            return;
-          }
-          if (cleaned === lastPartialText) {
-            return;
-          }
-          if (
-            lastPartialText &&
-            lastPartialText.startsWith(cleaned) &&
-            cleaned.length < lastPartialText.length
-          ) {
-            return;
-          }
-          const appendText =
-            lastPartialText && cleaned.startsWith(lastPartialText)
-              ? cleaned.slice(lastPartialText.length).trim()
-              : cleaned;
-          lastPartialText = cleaned;
-          appendBlockDraftEntry(appendText);
-        };
-
         const { dispatcher, replyOptions, markDispatchIdle, markRunComplete } =
           core.channel.reply.createReplyDispatcherWithTyping({
             ...replyPipeline,
@@ -1930,9 +1913,9 @@ export async function monitorMattermostProvider(opts: MonitorMattermostOpts = {}
                             : {}),
                           onModelSelected,
                           onPartialReply: (payload) => {
-                            if (account.streamingMode === "block") {
-                              updateBlockDraftFromPartial(payload.text);
-                            } else if (account.streamingMode !== "progress") {
+                            if (
+                              shouldUpdateMattermostDraftFromAssistantPartial(account.streamingMode)
+                            ) {
                               updateDraftFromPartial(payload.text);
                             }
                           },

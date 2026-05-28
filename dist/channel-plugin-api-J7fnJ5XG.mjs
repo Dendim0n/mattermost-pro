@@ -1,5 +1,5 @@
 import "./constants-lvhO5Lit.mjs";
-import { a as describeMattermostAccount, c as mattermostProMeta, i as MattermostProChannelConfigSchema, n as mattermostSetupWizard, o as isMattermostConfigured, r as mattermostSetupAdapter, s as mattermostProConfigAdapter } from "./channel-plugin-runtime-QZNX84o1.mjs";
+import { a as describeMattermostAccount, c as mattermostProMeta, i as MattermostProChannelConfigSchema, n as mattermostSetupWizard, o as isMattermostConfigured, r as mattermostSetupAdapter, s as mattermostProConfigAdapter } from "./channel-plugin-runtime-B4zBWDR8.mjs";
 import { t as resolveMattermostGatewayAuthBypassPaths } from "./gateway-auth-bypass-YVKSTzHp.mjs";
 //#region src/channel.setup.ts
 const mattermostProSetupPlugin = {

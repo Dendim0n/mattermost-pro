@@ -929,6 +929,9 @@ function shouldUpdateMattermostDraftToolProgress(account) {
 function shouldSuppressMattermostDefaultToolProgressMessages(account) {
 	return account.streamingMode !== "off";
 }
+function shouldUpdateMattermostDraftFromAssistantPartial(streamingMode) {
+	return streamingMode === "partial";
+}
 const RECENT_MATTERMOST_MESSAGE_TTL_MS = 5 * 6e4;
 const RECENT_MATTERMOST_MESSAGE_MAX = 2e3;
 function normalizeInteractionSourceIps(values) {
@@ -2043,15 +2046,6 @@ async function monitorMattermostProvider(opts = {}) {
 					lastBlockDraftEntry = cleaned;
 					draftStream.update(blockDraftText);
 				};
-				const updateBlockDraftFromPartial = (text) => {
-					const cleaned = text?.trim();
-					if (!cleaned) return;
-					if (cleaned === lastPartialText) return;
-					if (lastPartialText && lastPartialText.startsWith(cleaned) && cleaned.length < lastPartialText.length) return;
-					const appendText = lastPartialText && cleaned.startsWith(lastPartialText) ? cleaned.slice(lastPartialText.length).trim() : cleaned;
-					lastPartialText = cleaned;
-					appendBlockDraftEntry(appendText);
-				};
 				const { dispatcher, replyOptions, markDispatchIdle, markRunComplete } = core.channel.reply.createReplyDispatcherWithTyping({
 					...replyPipeline,
 					humanDelay: core.channel.reply.resolveHumanDelayConfig(cfg, route.agentId),
@@ -2174,8 +2168,7 @@ async function monitorMattermostProvider(opts = {}) {
 											...suppressDefaultToolProgressMessages ? { suppressDefaultToolProgressMessages: true } : {},
 											onModelSelected,
 											onPartialReply: (payload) => {
-												if (account.streamingMode === "block") updateBlockDraftFromPartial(payload.text);
-												else if (account.streamingMode !== "progress") updateDraftFromPartial(payload.text);
+												if (shouldUpdateMattermostDraftFromAssistantPartial(account.streamingMode)) updateDraftFromPartial(payload.text);
 											},
 											onAssistantMessageStart: () => {
 												lastPartialText = "";
