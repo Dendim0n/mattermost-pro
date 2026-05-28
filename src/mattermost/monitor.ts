@@ -154,6 +154,15 @@ export function shouldUpdateMattermostDraftFromAssistantPartial(
   return streamingMode === "partial";
 }
 
+export function shouldUseMattermostBlockDraftPreview(
+  account: Pick<ResolvedMattermostAccount, "streamingMode" | "blockStreaming">,
+): boolean {
+  return (
+    account.streamingMode !== "off" &&
+    (account.streamingMode === "block" || account.blockStreaming === true)
+  );
+}
+
 type MediaKind = "image" | "audio" | "video" | "document" | "unknown";
 
 type MattermostReaction = {
@@ -1685,7 +1694,8 @@ export async function monitorMattermostProvider(opts: MonitorMattermostOpts = {}
         const draftToolProgressEnabled = shouldUpdateMattermostDraftToolProgress(account);
         const suppressDefaultToolProgressMessages =
           shouldSuppressMattermostDefaultToolProgressMessages(account);
-        const preserveDraftAfterNormalFinal = account.streamingMode === "block";
+        const useBlockDraftPreview = shouldUseMattermostBlockDraftPreview(account);
+        const preserveDraftAfterNormalFinal = useBlockDraftPreview;
         const draftStream = draftPreviewEnabled
           ? createMattermostDraftStream({
               client,
@@ -1914,6 +1924,7 @@ export async function monitorMattermostProvider(opts: MonitorMattermostOpts = {}
                           onModelSelected,
                           onPartialReply: (payload) => {
                             if (
+                              !useBlockDraftPreview &&
                               shouldUpdateMattermostDraftFromAssistantPartial(account.streamingMode)
                             ) {
                               updateDraftFromPartial(payload.text);
@@ -1927,7 +1938,7 @@ export async function monitorMattermostProvider(opts: MonitorMattermostOpts = {}
                           },
                           onReasoningStream: async () => {
                             if (!lastPartialText) {
-                              if (account.streamingMode === "block") {
+                              if (useBlockDraftPreview) {
                                 appendBlockDraftEntry("Thinking…");
                               } else {
                                 draftStream.update("Thinking…");
@@ -1942,7 +1953,7 @@ export async function monitorMattermostProvider(opts: MonitorMattermostOpts = {}
                               ...payload,
                               config: account.config,
                             });
-                            if (account.streamingMode === "block") {
+                            if (useBlockDraftPreview) {
                               appendBlockDraftEntry(statusText);
                             } else {
                               draftStream.update(statusText);
@@ -1968,7 +1979,7 @@ export async function monitorMattermostProvider(opts: MonitorMattermostOpts = {}
                               },
                             );
                             if (progressText) {
-                              if (account.streamingMode === "block") {
+                              if (useBlockDraftPreview) {
                                 appendBlockDraftEntry(progressText);
                               } else {
                                 draftStream.update(progressText);

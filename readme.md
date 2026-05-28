@@ -137,6 +137,7 @@ This is the config shape this fork was built for:
 Behavior notes:
 
 - `streaming: "block"` edits one draft preview post while the task is running, appends the latest process state to the bottom, keeps the process history, and sends the final answer as a new normal message.
+- OpenClaw-style block streaming config, such as `streaming: { mode: "partial", block: { enabled: true } }` or legacy `blockStreaming: true`, is treated the same way by Mattermost Pro.
 - `replyToMode: "off"` does not create a new thread for top-level channel posts.
 - If the incoming Mattermost post is already in a thread, the reply stays in that thread.
 - Direct messages ignore `replyToMode`.
@@ -445,6 +446,7 @@ export MATTERMOST_URL="https://chat.example.com"
 行为说明：
 
 - `streaming: "block"`：任务运行时编辑同一条 draft 预览消息，把最新过程状态追加到底部，保留完整过程历史；最终回答另发一条普通消息。
+- OpenClaw 风格的 block streaming 配置，例如 `streaming: { mode: "partial", block: { enabled: true } }` 或旧的 `blockStreaming: true`，在 Mattermost Pro 中也会按上述语义处理。
 - `replyToMode: "off"`：顶层 channel 消息不会主动开新 thread。
 - 如果用户输入本身已经在 Mattermost thread 里，机器人会继续在该 thread 回复。
 - DM 不受 `replyToMode` 影响。
