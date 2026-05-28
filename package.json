@@ -29,12 +29,12 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
-    "openclaw": "2026.5.26",
+    "openclaw": "2026.5.20",
     "tsdown": "0.22.0",
     "vitest": "4.1.7"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.26"
+    "openclaw": ">=2026.5.20"
   },
   "peerDependenciesMeta": {
     "openclaw": {
@@ -50,6 +50,7 @@
       "@smithy/signature-v4": "5.4.4",
       "@smithy/util-stream": "4.6.4",
       "eventsource-parser": "3.0.8",
+      "lru-cache": "11.5.0",
       "rolldown": "1.0.2"
     }
   },

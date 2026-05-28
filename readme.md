@@ -25,7 +25,7 @@ Use this plugin when you want the private Mattermost workflow above without chan
 
 - Node.js 22 or newer
 - pnpm
-- OpenClaw `2026.5.26` or newer
+- OpenClaw `2026.5.20` or newer
 - A Mattermost bot token
 - A Mattermost server base URL, for example `https://chat.example.com`
 
@@ -333,7 +333,7 @@ MIT License. See [LICENSE](LICENSE).
 
 - Node.js 22 或更新版本
 - pnpm
-- OpenClaw `2026.5.26` 或更新版本
+- OpenClaw `2026.5.20` 或更新版本
 - Mattermost bot token
 - Mattermost 服务器 base URL，例如 `https://chat.example.com`
 
