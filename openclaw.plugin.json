@@ -1,0 +1,44 @@
+{
+  "id": "mattermost-pro",
+  "kind": "channel",
+  "name": "Mattermost Pro",
+  "description": "Private Mattermost channel plugin",
+  "activation": {
+    "onStartup": false
+  },
+  "channels": ["mattermost-pro"],
+  "channelEnvVars": {
+    "mattermost-pro": ["MATTERMOST_BOT_TOKEN", "MATTERMOST_URL"]
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  },
+  "channelConfigs": {
+    "mattermost-pro": {
+      "label": "Mattermost Pro",
+      "description": "Private Mattermost channel variant.",
+      "schema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "uiHints": {
+        "botToken": {
+          "label": "Bot token",
+          "sensitive": true
+        },
+        "baseUrl": {
+          "label": "Mattermost URL",
+          "placeholder": "https://chat.example.com"
+        },
+        "streaming": {
+          "label": "Streaming mode"
+        },
+        "replyToMode": {
+          "label": "Reply threading"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+import { t as mattermostProPlugin } from "./channel-plugin-runtime-QZNX84o1.mjs";
+import "./channel-plugin-api-DhoCmzR6.mjs";
+import { n as setMattermostProRuntime } from "./runtime-CtaUqSvR.mjs";
+import "./runtime-api.mjs";
+import { i as registerSlashCommandRoute } from "./slash-state-BRtyJ5Mi.mjs";
+import "./slash-route-api.mjs";
+import { defineChannelPluginEntry } from "openclaw/plugin-sdk/channel-core";
+//#region index.ts
+var mattermost_pro_default = defineChannelPluginEntry({
+	id: "mattermost-pro",
+	name: "Mattermost Pro",
+	description: "Private Mattermost channel plugin",
+	plugin: mattermostProPlugin,
+	setRuntime: setMattermostProRuntime,
+	registerFull(api) {
+		registerSlashCommandRoute(api);
+	}
+});
+//#endregion
+export { mattermost_pro_default as default };

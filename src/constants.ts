@@ -1,0 +1,1 @@
+export const MATTERMOST_TEXT_CHUNK_LIMIT = 14_000;

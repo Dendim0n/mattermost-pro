@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+1/
+
+.env
+*.log
+coverage/
+*.tsbuildinfo
+.ai-sec/records/

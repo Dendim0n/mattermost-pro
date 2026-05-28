@@ -1,0 +1,66 @@
+{
+  "name": "mattermost-pro",
+  "version": "2026.5.26",
+  "description": "Standalone OpenClaw Mattermost Pro channel plugin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Dendim0n/mattermost-pro.git"
+  },
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./setup-entry": "./dist/setup-entry.mjs",
+    "./runtime-api": "./dist/runtime-api.mjs"
+  },
+  "files": [
+    "dist/**",
+    "openclaw.plugin.json",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "tsdown --no-config --clean --entry ./index.ts --entry ./setup-entry.ts --entry ./api.ts --entry ./channel-plugin-api.ts --entry ./channel-plugin-runtime.ts --entry ./contract-api.ts --entry ./doctor-contract-api.ts --entry ./gateway-auth-api.ts --entry ./policy-api.ts --entry ./runtime-api.ts --entry ./secret-contract-api.ts --entry ./slash-route-api.ts --out-dir ./dist --platform node --dts false --deps.never-bundle openclaw --deps.never-bundle \"openclaw/*\" --deps.never-bundle ws --deps.never-bundle zod",
+    "test": "vitest run src/channel.test.ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "ws": "8.21.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "openclaw": "2026.5.26",
+    "tsdown": "0.22.0",
+    "vitest": "4.1.7"
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.5.26"
+  },
+  "peerDependenciesMeta": {
+    "openclaw": {
+      "optional": true
+    }
+  },
+  "openclaw": {
+    "extensions": [
+      "./index.ts"
+    ],
+    "setupEntry": "./setup-entry.ts",
+    "runtimeExtensions": [
+      "./dist/index.mjs"
+    ],
+    "runtimeSetupEntry": "./dist/setup-entry.mjs",
+    "channel": {
+      "id": "mattermost-pro",
+      "label": "Mattermost Pro",
+      "selectionLabel": "Mattermost Pro (private plugin)",
+      "docsPath": "/channels/mattermost",
+      "docsLabel": "mattermost-pro",
+      "blurb": "private Mattermost channel variant.",
+      "order": 65
+    },
+    "install": {
+      "minHostVersion": ">=2026.4.10"
+    }
+  }
+}
