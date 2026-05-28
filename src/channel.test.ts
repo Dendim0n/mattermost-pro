@@ -4,6 +4,7 @@ import { mattermostProPlugin } from "./channel.js";
 import type { MattermostClient } from "./mattermost/client.js";
 import {
   deliverMattermostReplyWithDraftPreview,
+  normalizeMattermostInteractionSourceIps,
   shouldUpdateMattermostDraftFromAssistantPartial,
   shouldUseMattermostBlockDraftPreview,
 } from "./mattermost/monitor.js";
@@ -78,5 +79,14 @@ describe("Mattermost block streaming draft preview", () => {
 
     expect(calls).toEqual(["flush", "seal", "deliver"]);
     expect(delivered).toEqual([{ text: "final answer" }]);
+  });
+});
+
+describe("Mattermost runtime compatibility", () => {
+  it("normalizes interaction source IPs without newer OpenClaw string-list exports", () => {
+    expect(normalizeMattermostInteractionSourceIps([" 10.0.0.1 ", "", " 192.168.1.1 "])).toEqual([
+      "10.0.0.1",
+      "192.168.1.1",
+    ]);
   });
 });

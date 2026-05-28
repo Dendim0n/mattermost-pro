@@ -6,7 +6,7 @@ import { defineFinalizableLivePreviewAdapter, deliverWithFinalizableLivePreviewA
 import { safeParseJsonWithSchema, safeParseWithSchema } from "openclaw/plugin-sdk/extension-shared";
 import { buildTtsSupplementMediaPayload, countOutboundMedia, getReplyPayloadTtsSupplement, isReasoningReplyPayload } from "openclaw/plugin-sdk/reply-payload";
 import { fetchWithSsrFGuard, isPrivateNetworkOptInEnabled, ssrfPolicyFromPrivateNetworkOptIn } from "openclaw/plugin-sdk/ssrf-runtime";
-import { normalizeLowercaseStringOrEmpty, normalizeOptionalString, normalizeStringEntries, normalizeTrimmedStringList, uniqueStrings } from "openclaw/plugin-sdk/string-coerce-runtime";
+import { normalizeLowercaseStringOrEmpty, normalizeOptionalString, normalizeStringEntries, uniqueStrings } from "openclaw/plugin-sdk/string-coerce-runtime";
 import { formatChannelProgressDraftLineForEntry, resolveChannelStreamingPreviewToolProgress } from "openclaw/plugin-sdk/channel-streaming";
 import { z } from "zod";
 import { createFinalizableDraftLifecycle } from "openclaw/plugin-sdk/channel-lifecycle";
@@ -937,8 +937,9 @@ function shouldUseMattermostBlockDraftPreview(account) {
 }
 const RECENT_MATTERMOST_MESSAGE_TTL_MS = 5 * 6e4;
 const RECENT_MATTERMOST_MESSAGE_MAX = 2e3;
-function normalizeInteractionSourceIps(values) {
-	return normalizeTrimmedStringList(values);
+function normalizeMattermostInteractionSourceIps(values) {
+	if (!Array.isArray(values)) return [];
+	return values.map((value) => typeof value === "string" ? value.trim() : "").filter((value) => value.length > 0);
 }
 const recentInboundMessages = createClaimableDedupe({
 	ttlMs: RECENT_MATTERMOST_MESSAGE_TTL_MS,
@@ -1194,7 +1195,7 @@ async function monitorMattermostProvider(opts = {}) {
 		interactions: account.config.interactions
 	});
 	setInteractionCallbackUrl(account.accountId, callbackUrl);
-	const allowedInteractionSourceIps = normalizeInteractionSourceIps(account.config.interactions?.allowedSourceIps);
+	const allowedInteractionSourceIps = normalizeMattermostInteractionSourceIps(account.config.interactions?.allowedSourceIps);
 	try {
 		const mmHost = new URL(baseUrl).hostname;
 		const callbackHost = new URL(callbackUrl).hostname;

@@ -19,7 +19,6 @@ import { isPrivateNetworkOptInEnabled } from "openclaw/plugin-sdk/ssrf-runtime";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-  normalizeTrimmedStringList,
   uniqueStrings,
 } from "openclaw/plugin-sdk/string-coerce-runtime";
 import { MATTERMOST_TEXT_CHUNK_LIMIT } from "../constants.js";
@@ -174,8 +173,13 @@ type MattermostReaction = {
 const RECENT_MATTERMOST_MESSAGE_TTL_MS = 5 * 60_000;
 const RECENT_MATTERMOST_MESSAGE_MAX = 2000;
 
-function normalizeInteractionSourceIps(values?: string[]): string[] {
-  return normalizeTrimmedStringList(values);
+export function normalizeMattermostInteractionSourceIps(values?: string[]): string[] {
+  if (!Array.isArray(values)) {
+    return [];
+  }
+  return values
+    .map((value) => (typeof value === "string" ? value.trim() : ""))
+    .filter((value) => value.length > 0);
 }
 
 const recentInboundMessages = createClaimableDedupe({
@@ -625,7 +629,7 @@ export async function monitorMattermostProvider(opts: MonitorMattermostOpts = {}
     interactions: account.config.interactions,
   });
   setInteractionCallbackUrl(account.accountId, callbackUrl);
-  const allowedInteractionSourceIps = normalizeInteractionSourceIps(
+  const allowedInteractionSourceIps = normalizeMattermostInteractionSourceIps(
     account.config.interactions?.allowedSourceIps,
   );
 
